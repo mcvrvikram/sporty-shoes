@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="ISO-8859-1">
+<title>Profile</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+</head>
+<body>
+
+	<nav th:fragment="navbar"
+		class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+
+			<a class="navbar-brand" href="/default/list">Sporty Shoes</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+				aria-controls="navbarScroll" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarScroll">
+				<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
+					style="-bs-scroll-height: 100px;">
+
+					<li sec:authorize="isAnonymous()"><a class="nav-link"
+						href="/login">Login</a></li>
+					<li sec:authorize="isAuthenticated()"><a class="nav-link"
+						href="/user/profile" sec:authentication="name"></a></li>
+					
+					<li><a class="nav-link"
+						href="/admin/product/list">Products</a></li>
+					<li><a class="nav-link"
+						href="/admin/category/list">Categories</a></li>
+					<li sec:authorize="isAuthenticated()"><a class="nav-link"
+						href="/logout">Logout</a></li>
+				</ul>
+				<form class="d-flex" th:action="@{/default/search}">
+					<input class="form-control me-2" type="search" placeholder="Search"
+						name="name" aria-label="Search">
+					<button class="btn btn-outline-light" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+<div class="conatiner col-md-5">
+<div th:if="${param.success}">
+
+					<div class="alert alert-info"> Password successfully
+						Changed</div>
+				</div>
+	<h1>Your Profile Details</h1>
+		<span th:text="|First Name : ${user.firstName}|"></span><br>
+		<span th:text="|Last Name : ${user.lastName}|"></span><br>
+		<span th:text="|email : ${user.email}|"></span><br>
+		Role(s) : <span sec:authentication="principal.authorities"></span><br><br>
+		<a href="/user/changePassword" class="btn btn-dark">Change Password</a>
+		
+</div>
+</body>
+</html>

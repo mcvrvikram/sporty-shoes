@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="ISO-8859-1">
+<title>List Products</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+	crossorigin="anonymous">
+	<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<form method="POST" th:object="${invoice}" th:action="@{/user/buy}" class="row g-3">
+			<h1>Enter shipping address</h1>
+			<input type="hidden" th:field="*{id}">
+				Line1 :  <input type="text" th:field="*{line1}" class="form-control"> 
+				Line2 :  <input type="text" th:field="*{line2}" class="form-control">
+				Zip Code :  <input type="text" th:field="*{zipcode}" class="form-control">
+				phone :  <input type="text" th:field="*{phone}" class="form-control">
+				<div class="container col-md-5"><br/>
+					<button type="submit" class="btn btn-dark">Place Order</button>
+					<a href="/user/cart" class="btn btn-dark">Cancel</a>
+				</div>
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="ISO-8859-1">
+<title>List Products</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+	crossorigin="anonymous">
+	<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+</head>
+<body>
+
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			
+			<a class="navbar-brand" href="/default/list">Sporty Shoes Admin</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+				aria-controls="navbarScroll" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarScroll">
+				<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
+					style="-bs-scroll-height: 100px;">
+					
+					  <li sec:authorize="isAnonymous()"><a class="nav-link" href="/login">Login</a></li>
+					  <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/profile" sec:authentication="name"></a></li>
+					  <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a></li>
+					<li sec:authorize="isAuthenticated()"><a class="nav-link" href="/user/cart">Cart</a></li>
+				</ul>
+				<form class="d-flex" th:action="@{/default/search}">
+					<input class="form-control me-2" type="search" placeholder="Search" name="name"
+						aria-label="Search">
+					<button class="btn btn-outline-light" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+	<div th:if="${param.success}">
+
+					<div class="alert alert-info">Order placed successfully</div>
+				</div>
+	<div class="container"><br>
+	<a th:href="|/admin/reports|" class=" btn btn-outline-dark">Reports</a>
+
+		<h1>Purchase List</h1>
+		
+		<hr /><br/>
+		<table class="table table-dark table-hover">
+			<thead>
+				<tr>
+					<th>Order Id</th>
+					<th>User Email</th>
+					<th>Date</th>
+					<th>Address</th>
+					<th>Total Amount</th>
+					<th>Status</th>
+					<th>Action</th>
+					
+				</tr>
+				<tr th:each="order : ${orders}" class="table-light">
+					<td th:text="${order.invoiceId}"></td>
+					<td th:text="${order.email}"></td>
+					<td th:text="${order.date}"></td>
+					<td th:text="|${order.line1}, ${order.line2}, ${order.zipcode}, ${order.phone}|"></td>
+					<td th:text="${order.total}"></td>
+					<td th:if="${order.isDelivered}" th:text="Delivered"></td>
+					<td th:if="!${order.isDelivered}" th:text="Ordered"></td>
+					<td>
+						<a th:href="|/user/view-order?invoiceId=${order.invoiceId}|" >View|</a>
+						<a th:href="|/admin/setDelivered?invoiceId=${order.invoiceId}|" >Set delivered</a>
+					
+					
+					
+				</tr>
+				
+			</thead>
+		
+		</table>
+		</div>
+		
+	
+
+</body>
+</html>
